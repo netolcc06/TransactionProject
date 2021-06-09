@@ -1,12 +1,23 @@
 class TransactionsController < ApplicationController
   def create
+    create_params
+    return render_not_found unless Account.exists?(params[:source_id])
+    return render_not_found unless Account.exists?(params[:destiny_id])
+
+    tr = Transaction.new(:source_id => params[:source_id], :destiny_id => params[:destiny_id], :amount => params[:amount])
+    if tr.save
+      render json: Transaction.find(tr.id)
+    end
+
+  end
+
+  def create_params
     params.require(:source_id)
     params.require(:destiny_id)
     params.require(:amount)
+  end
 
-    render json: 'Source account not found', status: :not_found if Account.exists?(params[:source_id])
-    render json: 'Destiny account not found', status: :not_found if Account.exists?(params[:destiny_id])
-
-    Transaction.new(params.permit(:source_id, :destiny_id, :amount))
+  def render_not_found
+    render json: 'Account not found', status: :not_found
   end
 end
