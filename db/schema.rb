@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_06_07_234819) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.decimal "amount", precision: 12, scale: 2, default: "0.0", null: false
+    t.decimal "amount", precision: 12, scale: 2, null: false
     t.bigint "source_id", null: false
     t.bigint "destiny_id", null: false
     t.datetime "created_at", precision: 6, null: false
