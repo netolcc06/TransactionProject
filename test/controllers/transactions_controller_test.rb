@@ -5,9 +5,6 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     acc1 = Account.create(:balance => 40)
     acc2 = Account.create(:balance => 30)
 
-    assert_equal 1, acc1.id
-    assert_equal 2, acc2.id
-
     post "/transactions", params: {:amount => 30, :source_id => acc1.id, :destiny_id => acc2.id}
 
     assert_response :success
@@ -19,10 +16,7 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     acc1 = Account.create(:balance => 40)
     acc2 = Account.create(:balance => 30)
 
-    assert_equal 1, acc1.id
-    assert_equal 2, acc2.id
-
-    post "/transactions", params: {:amount => 30, :source_id => acc1.id, :destiny_id => 3}
+    post "/transactions", params: {:amount => 30, :source_id => acc1.id, :destiny_id => -1}
 
     assert_response :not_found
     assert_equal 40, acc1.balance
@@ -36,5 +30,25 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     assert_raise(Exception){
       post "/transactions", params: {:amount => 50, :source_id => acc1.id, :destiny_id => acc2.id}
     }
+  end
+
+  test "should not create transaction due to negative amount" do
+    acc1 = Account.create(:balance => 40)
+    acc2 = Account.create(:balance => 30)
+
+    post "/transactions", params: {:amount => -50, :source_id => acc1.id, :destiny_id => acc2.id}
+
+    assert_equal 40, acc1.balance
+    assert_equal 30, acc2.balance
+  end
+
+  test "should not create transaction due to null amount" do
+    acc1 = Account.create(:balance => 40)
+    acc2 = Account.create(:balance => 30)
+
+    post "/transactions", params: {:amount => :null, :source_id => acc1.id, :destiny_id => acc2.id}
+
+    assert_equal 40, acc1.balance
+    assert_equal 30, acc2.balance
   end
 end

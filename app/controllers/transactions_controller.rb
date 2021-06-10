@@ -18,6 +18,6 @@ class TransactionsController < ApplicationController
   end
 
   def render_not_found
-    render json: 'Account not found', status: :not_found
+    render json: {message:'Account not found', status: 404}, status: :not_found
   end
 end
