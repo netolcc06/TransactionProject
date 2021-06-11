@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   post 'transactions', to: 'transactions#create'
   post 'accounts', to: 'accounts#create'
   get 'accounts', to: 'accounts#list'
