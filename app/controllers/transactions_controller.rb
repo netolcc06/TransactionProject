@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   def create
     if (error = errors)
-      render json: error, status: :forbidden
+      render json: error, status: :bad_request
     else
       tr = Transaction.new(source: source_account, destiny: destiny_account, amount: params[:amount])
       ActiveRecord::Base.transaction do
