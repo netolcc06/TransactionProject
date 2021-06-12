@@ -12,7 +12,7 @@ How to use:
 - Create the dbs with rake db:create
 - Run the migrations with rake db:migrate
 - Run your rails server with rails s
-- You can use devise endpoint POST /users/sign_in endpoint to create a new user. The body should look like:
+- You can use devise endpoint POST /users endpoint to create a new user and /users/sign_in to create a new session. The body should look like:
     
     {
         "user": {
@@ -38,6 +38,7 @@ How to use:
     - You cannot transfer more money than you actually have in your account 
 
 Room for improvement:
+- Creating a more sophisticated support for user login/session handling
 - Changing the type of amount
 - Creating a SuperAdmin account to centralize responsability for creating accounts and assigning them to the users
 - Using a gem to account for different currencies when dealing with the transactions
