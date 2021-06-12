@@ -14,6 +14,8 @@ class TransactionsController < ApplicationController
     end
   end
 
+  private
+
   def errors
     return {"message" => "You cannot transfer money to the same origin account"} if params[:source_id] == params[:destiny_id]
     return {"message" => "Invalid destiny account"} if !destiny_account
